@@ -3,7 +3,7 @@ Nom is a small project to create a commandline tool work working with the OpenBD
 
 I wanted a simple way to manage projects, install CFLib UDFs, update to the latest version, and so on.
 
-## Current functionality
+## Current Functionality
 
 As of right now, Nom can:
 * Update an existing project to the latest version of OpenBD
@@ -12,12 +12,18 @@ As of right now, Nom can:
 * Show info about the current project (Only Nom info at the moment)
 * Show a little info about Nom
 
-## Planned functionality
+## Planned Functionality
 * Create project (Make folder, download OpenBD, ask questions and install/setup extra things like datasources)
 * Run locally (I already have the functionality in a different project, just need to bring it over)
 * Run MXUnit tests and display results
 * Update itself to the latest version
 
+## OS Compatability
+The code is pretty much cross-platform, mostly just have to take edgecases into account.
+
+I'm developing this on a Mac, but I'll try to make sure to have releases for Mac, Windows, and Linux when I do releases.
+
+## Current State
 Here's the current nom -h output to give you an idea of what's there and what to expect.
 
 <pre>
@@ -54,7 +60,7 @@ nom -d      Information about Nom
 nom --nom   Update Nom to the latest version
 </pre>
 
-## General information
+## General Information
 
 ### Language
 Nom is written in Object Pascal using Lazarus
