@@ -9,12 +9,12 @@ As of right now, Nom can:
 * Update an existing project to the latest version of OpenBD
 * Create nomolicious files
 * Install CFLib UDFs
+* Run server
+* Create project
 * Show info about the current project (Only Nom info at the moment)
 * Show a little info about Nom
 
 ## Planned Functionality
-* Create project (Make folder, download OpenBD, ask questions and install/setup extra things like datasources)
-* Run locally (I already have the functionality in a different project, just need to bring it over)
 * Run MXUnit tests and display results
 * Update itself to the latest version
 
