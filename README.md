@@ -55,8 +55,6 @@ nom -s      Turn existing project into Nom project
  
 nom -p      Show information about the current project
  
-nom -d      Information about Nom
- 
 nom --nom   Update Nom to the latest version
 </pre>
 
