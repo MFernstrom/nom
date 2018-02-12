@@ -37,7 +37,7 @@ To run the project just CD to the project root and run
 This will launch a local Jetty server with the port and maxmemory you set up during the project creation, just hit CTRL-C to shut it down.
 
 
-## OS Compatability
+## OS Compatibility
 The code is pretty cross-platform, I mostly just have to take edgecases into account.
 
 I'm developing this on a Mac, but I'll try to make sure to have releases for Mac, Windows, and Linux when I do non-alpha releases.
