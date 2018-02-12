@@ -4,7 +4,6 @@ Nom is a small project to create a commandline tool work working with the OpenBD
 I wanted a simple way to manage projects, install CFLib UDFs, update to the latest version, and so on.
 
 ## Current Functionality
-
 As of right now, Nom can:
 * Update an existing project to the latest version of OpenBD
 * Create nomolicious files
@@ -18,10 +17,30 @@ As of right now, Nom can:
 * Run MXUnit tests and display results
 * Update itself to the latest version
 
-## OS Compatability
-The code is pretty much cross-platform, mostly just have to take edgecases into account.
+## Using it
+Nom is a CLI utility, download and add it to your PATH, and you should be good to go, but how can you actually use it?
 
-I'm developing this on a Mac, but I'll try to make sure to have releases for Mac, Windows, and Linux when I do releases.
+### Create a new project
+<pre>$ nom -c MyNewProject</pre>
+This will create the MyNewProject folder, download the latest OpenBD version (Nightly version), and create a nomolicious.ini file.
+
+### Adding CFLib UDFs
+CFLib has lots of useful UDFs, for ease-of-use Nom has the ability to install them for you.
+
+Let's say you want to have the CFLib UDF "IsWeekDay", just run this command
+<pre>$ nom -i IsWeekDay</pre>
+It'll download the UDF from CFLib.org, wrap it as a cfcomponent, and save it to the WEB-INF/customtags/cflib/ directory with the same name as the UDF.
+
+### Running the project
+To run the project just CD to the project root and run
+<pre>$ nom -r</pre>
+This will launch a local Jetty server with the port and maxmemory you set up during the project creation, just hit CTRL-C to shut it down.
+
+
+## OS Compatability
+The code is pretty cross-platform, I mostly just have to take edgecases into account.
+
+I'm developing this on a Mac, but I'll try to make sure to have releases for Mac, Windows, and Linux when I do non-alpha releases.
 
 ## Current State
 Here's the current nom -h output to give you an idea of what's there and what to expect.
