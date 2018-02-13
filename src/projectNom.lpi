@@ -29,7 +29,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="dist/$(TargetCPU)-$(TargetOS)/project1"/>
+            <Filename Value="dist/$(TargetCPU)-$(TargetOS)/nom"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
@@ -121,7 +121,7 @@
       <Version Value="2"/>
       <DestinationDirectory Value="/Users/marcusfernstrom/Documents/Coding/Lazarus/nom/published/nom.git/src"/>
       <IgnoreBinaries Value="False"/>
-      <IncludeFileFilter Value="*.(pas|pp|inc|lpr|lfm|lrs|lpi|lpk|xml|sh|jar)"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lpr|lfm|lrs|lpi|lpk|xml|sh|jar|gitignore)"/>
     </PublishOptions>
     <RunParams>
       <local>
@@ -136,9 +136,9 @@
         <PackageName Value="MultiThreadProcsLaz"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="12">
       <Unit0>
-        <Filename Value="project1.lpr"/>
+        <Filename Value="projectNom.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
@@ -191,6 +191,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ProjectInfo"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="published/nom.git/.gitignore.txt"/>
+        <IsPartOfProject Value="True"/>
+      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -221,17 +225,4 @@
       </Options>
     </Linking>
   </CompilerOptions>
-  <Debugging>
-    <Exceptions Count="3">
-      <Item1>
-        <Name Value="EAbort"/>
-      </Item1>
-      <Item2>
-        <Name Value="ECodetoolError"/>
-      </Item2>
-      <Item3>
-        <Name Value="EFOpenError"/>
-      </Item3>
-    </Exceptions>
-  </Debugging>
 </CONFIG>

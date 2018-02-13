@@ -53,24 +53,29 @@ begin
         end;
       end;
 
-      if Not DirectoryExists('WEB-INF/customtags/') then
-        CreateDir('WEB-INF/customtags/');
-
-      if Not DirectoryExists('WEB-INF/customtags/cflib/') then
-        CreateDir('WEB-INF/customtags/cflib/');
-
-      if Not IsUdfTag( RetData ) then
+      if Not DirectoryExists('WEB-INF/') then
+        WriteLn('Can''t find WEB-INF, are you in the root of the project?')
+      else
       begin
-        RetData.Insert(1, '<cfscript>');
-        RetData.Add('</cfscript>');
+        if Not DirectoryExists('WEB-INF/customtags/') then
+          CreateDir('WEB-INF/customtags/');
+
+        if Not DirectoryExists('WEB-INF/customtags/cflib/') then
+          CreateDir('WEB-INF/customtags/cflib/');
+
+        if Not IsUdfTag( RetData ) then
+        begin
+          RetData.Insert(1, '<cfscript>');
+          RetData.Add('</cfscript>');
+        end;
+
+        RetData.Add('</cfcomponent>');
+
+        WriteLn('Saving UDF to WEB-INF/customtags/cflib/' + name + '.cfc');
+        RetData.SaveToFile('WEB-INF/customtags/cflib/' + name + '.cfc');
+        WriteLn(name + ' is now available.');
+        GetUdf := true;
       end;
-
-      RetData.Add('</cfcomponent>');
-
-      WriteLn('Saving UDF to WEB-INF/customtags/cflib/' + name + '.cfc');
-      RetData.SaveToFile('WEB-INF/customtags/cflib/' + name + '.cfc');
-      WriteLn(name + ' is now available.');
-      GetUdf := true;
     except
       on E: Exception do
       begin

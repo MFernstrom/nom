@@ -47,9 +47,7 @@ begin
   RunPort := GetRunPort('');
   MaxMem := GetMaxMem('');
 
-  TextColor(Green);
   WriteLn( 'Starting server' );
-  TextColor(Black);
   WriteLn( ' ' );
 
   AProcess.Executable := '/usr/bin/java';
@@ -73,10 +71,8 @@ begin
       if KeyPressed then
         if ReadKey = ^C then
           begin
-            TextColor(Red);
             WriteLn('');
             WriteLn('Stopping server');
-            TextColor(Black);
             AProcess.Terminate(0);
           end;
 
@@ -94,10 +90,8 @@ begin
                 begin
                   HasNotifiedStarted := true;
                   WriteLn(' ');
-                  TextColor(Green);
                   WriteLn('Server is ready on port ' + RunPort);
                   WriteLn(' ');
-                  TextColor(Black);
                 end;
           end;
         end;
@@ -106,9 +100,7 @@ begin
     AProcess.Free;
   end;
 
-  TextColor(Green);
   WriteLn('Server stopped');
-  TextColor(Black);
 
   runServer := True;
 end;
