@@ -12,6 +12,9 @@ uses
   RunProject, NewProject, AddNomProject, ShowProject
   { you can add units after this };
 
+CONST
+  CurrentVersion = '0.1.1';
+
 var
   RunLocation : String;
 
@@ -34,12 +37,17 @@ var
   ErrorMsg: String;
 begin
   // quick check parameters
-  ErrorMsg:=CheckOptions('huxi:arspc', 'nom run');
+  ErrorMsg:=CheckOptions('huxi:arspcv', 'nom run version');
   if ErrorMsg<>'' then begin
     WriteLn(ErrorMsg);
     Terminate;
     Exit;
   end ;
+
+  if HasOption('v', 'version') then begin
+    WriteLn('Nom version ' + CurrentVersion);
+    Halt;
+  end;
 
   if HasOption('p') then begin
     showProjectInfo();

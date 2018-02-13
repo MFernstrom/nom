@@ -10,7 +10,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils,
-  CRT, fphttpclient, Zipper, FileUtil, AddNomProject;
+  CRT, fphttpclient, Zipper, FileUtil;
 
 function CreateProject( Name: String ): Boolean;
 
@@ -26,7 +26,7 @@ Type
 
 var
   IsBusy : Boolean;
-  Spinners : array [1..10] of String;
+  Spinners : array [1..4] of String;
   X,Y, spinnerId: Integer;
   SpinnerSpace : String = '   ';
   ProjectName : String;
@@ -42,24 +42,29 @@ begin
   NewOpenBDProjectThread := TMyThread.Create(True); // This way it doesn't start automatically
 	spinnerId := 1;
 
-  spinners[1] := '⠋';
-  spinners[2] := '⠙';
-  spinners[3] := '⠹';
-  spinners[4] := '⠸';
-  spinners[5] := '⠼';
-  spinners[6] := '⠴';
-  spinners[7] := '⠦';
-  spinners[8] := '⠧';
-  spinners[9] := '⠇';
-  spinners[10] := '⠏';
+  spinners[1] := '\';
+  spinners[2] := '|';
+  spinners[3] := '/';
+  spinners[4] := '-';
+  //spinners[1] := '⠋';
+  //spinners[2] := '⠙';
+  //spinners[3] := '⠹';
+  //spinners[4] := '⠸';
+  //spinners[5] := '⠼';
+  //spinners[6] := '⠴';
+  //spinners[7] := '⠦';
+  //spinners[8] := '⠧';
+  //spinners[9] := '⠇';
+  //spinners[10] := '⠏';
 
   Y := WhereY;
 
 	IsBusy := true;
 
   NewOpenBDProjectThread.Start;
-  writeln( SpinnerSpace + 'Creating new OpenBD project' );
+  writeln( SpinnerSpace + 'Downloading OpenBD Nightly and creating project' );
 
+  CursorOff;
   while IsBusy do
   begin
     GotoXY(1, Y);
@@ -70,10 +75,11 @@ begin
 
     delay(80);
   end;
+  CursorOn;
 	GotoXY(1, Y);
   write(' ');
   writeln(' ');
-	writeln(SpinnerSpace + 'Done');
+	writeln(SpinnerSpace + 'Project created. CD into ' + ProjectName + ' and type ''nom -r'' to run it');
   CreateProject := true;
 end;
 
@@ -82,8 +88,6 @@ end;
 procedure TMyThread.Execute;
 var
   UnZipper: TUnZipper;
-  JarFiles: TStringList;
-  CurrFile: String;
   OpenBDFileName: TFileName;
 begin
   try

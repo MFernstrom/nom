@@ -14,7 +14,6 @@ implementation
 
 function addNom( PathToProject : String ): Boolean;
 var
-  Answer : String;
   Port, MaxMem : Integer;
   INI: TINIFile;
 begin

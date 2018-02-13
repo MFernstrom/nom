@@ -25,7 +25,7 @@ Type
     end;
 
 var
-	Spinners : array [1..10] of String;
+	Spinners : array [1..4] of String;
   X,Y, spinnerId: Integer;
   OpenBDFileName: TFileName;
   IsBusy : Boolean;
@@ -40,16 +40,21 @@ begin
   UpdateOpenBDThread := TMyThread.Create(True); // This way it doesn't start automatically
 	spinnerId := 1;
 
-  spinners[1] := '⠋';
-  spinners[2] := '⠙';
-  spinners[3] := '⠹';
-  spinners[4] := '⠸';
-  spinners[5] := '⠼';
-  spinners[6] := '⠴';
-  spinners[7] := '⠦';
-  spinners[8] := '⠧';
-  spinners[9] := '⠇';
-  spinners[10] := '⠏';
+  spinners[1] := '\';
+  spinners[2] := '|';
+  spinners[3] := '/';
+  spinners[4] := '-';
+
+  //spinners[1] := '⠋';
+  //spinners[2] := '⠙';
+  //spinners[3] := '⠹';
+  //spinners[4] := '⠸';
+  //spinners[5] := '⠼';
+  //spinners[6] := '⠴';
+  //spinners[7] := '⠦';
+  //spinners[8] := '⠧';
+  //spinners[9] := '⠇';
+  //spinners[10] := '⠏';
 
   Y := WhereY;
 
@@ -58,6 +63,7 @@ begin
   UpdateOpenBDThread.Start;
   writeln( SpinnerSpace + 'Updating project to latest OpenBD version' );
 
+  CursorOff;
   while IsBusy do
   begin
     GotoXY(1, Y);
@@ -68,10 +74,12 @@ begin
 
     delay(80);
   end;
+
+  CursorOn;
 	GotoXY(1, Y);
   write(' ');
   writeln(' ');
-	writeln(SpinnerSpace + 'Done');
+	writeln(SpinnerSpace + 'Project updated');
   UpdateOpenBD := true;
 end;
 
