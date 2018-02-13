@@ -5,11 +5,12 @@ unit UpdateNightly;
 interface
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  {$IFDEF UNIX}
+  cmem,{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils,
-  CRT, cmem, fphttpclient, Zipper, FileUtil;
+  CRT, fphttpclient, Zipper, FileUtil;
 
 function UpdateOpenBD( FullReplace : Boolean ): boolean;
 

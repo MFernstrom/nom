@@ -136,7 +136,7 @@
         <PackageName Value="MultiThreadProcsLaz"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="9">
       <Unit0>
         <Filename Value="projectNom.pas"/>
         <IsPartOfProject Value="True"/>
@@ -162,39 +162,25 @@
         <UnitName Value="RunProject"/>
       </Unit4>
       <Unit5>
-        <Filename Value="saveproject.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="SaveProject"/>
-      </Unit5>
-      <Unit6>
         <Filename Value="newproject.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="NewProject"/>
-      </Unit6>
-      <Unit7>
+      </Unit5>
+      <Unit6>
         <Filename Value="addnomproject.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="AddNomProject"/>
-      </Unit7>
-      <Unit8>
+      </Unit6>
+      <Unit7>
         <Filename Value="showproject.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ShowProject"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="fileutil.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="FileUtil"/>
-      </Unit9>
-      <Unit10>
+      </Unit7>
+      <Unit8>
         <Filename Value="projectinfo.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="ProjectInfo"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="published/nom.git/.gitignore.txt"/>
-        <IsPartOfProject Value="True"/>
-      </Unit11>
+      </Unit8>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

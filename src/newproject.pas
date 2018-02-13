@@ -5,11 +5,12 @@ unit NewProject;
 interface
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  {$IFDEF UNIX}
+  cmem,{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils,
-  CRT, cmem, fphttpclient, Zipper, FileUtil, AddNomProject;
+  CRT, fphttpclient, Zipper, FileUtil, AddNomProject;
 
 function CreateProject( Name: String ): Boolean;
 

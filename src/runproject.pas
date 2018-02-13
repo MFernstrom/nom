@@ -5,11 +5,12 @@ unit RunProject;
 interface
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
+  {$IFDEF UNIX}
+  cmem,{$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils,
-  Process, cmem, Crt, ProjectInfo;
+  Process, Crt, ProjectInfo;
 
 function runServer( RunLocation: String ):Boolean;
 
@@ -50,7 +51,12 @@ begin
   WriteLn( 'Starting server' );
   WriteLn( ' ' );
 
-  AProcess.Executable := '/usr/bin/java';
+  {$IFDEF UNIX}
+    AProcess.Executable := '/usr/bin/java';
+  {$ENDIF}
+  {$IFDEF WINDOWS}
+    AProcess.Executable := 'java';
+  {$ENDIF}
   //AProcess.CommandLine := 'java -DSTOP.PORT=11223 -DSTOP.KEY=kill_jtty -jar jetty-runner.jar --port 8099 --path / .';
   AProcess.Parameters.add('-Xmx' + MaxMem + 'm');
   AProcess.Parameters.add('-jar');
