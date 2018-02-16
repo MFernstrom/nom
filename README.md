@@ -12,6 +12,8 @@ As of right now, Nom can:
 * Create project
 * Show info about the current project (Only Nom info at the moment)
 * Show a little info about Nom
+* Download and install MXUnit
+* Deploy to Heroku (See details below)
 
 ## Planned Functionality
 * Run MXUnit tests and display results
@@ -35,6 +37,11 @@ It'll download the UDF from CFLib.org, wrap it as a cfcomponent, and save it to 
 To run the project just CD to the project root and run
 <pre>$ nom -r</pre>
 This will launch a local Jetty server with the port and maxmemory you set up during the project creation, just hit CTRL-C to shut it down.
+
+### Deploying to Heroku
+Heroku deployment is simple.
+Just create a new app in your Heroku account, make sure you have Heroku CLI set up and have logged into it, edit the nomolicious.ini file by adding a [Heroku] section with a ProjectName=<The name you picked in Heroku>
+Now you can just go nom --deploy --heroku and it should create a WAR file of the project and deploy to your Heroku account.
 
 
 ## OS Compatibility
