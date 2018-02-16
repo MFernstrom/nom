@@ -131,7 +131,7 @@
         <PackageName Value="MultiThreadProcsLaz"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="9">
+    <Units Count="11">
       <Unit0>
         <Filename Value="projectNom.pas"/>
         <IsPartOfProject Value="True"/>
@@ -176,6 +176,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ProjectInfo"/>
       </Unit8>
+      <Unit9>
+        <Filename Value="mxunit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="MxUnit"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="deployheroku.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="DeployHeroku"/>
+      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

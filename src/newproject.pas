@@ -79,7 +79,6 @@ begin
 	GotoXY(1, Y);
   write(' ');
   writeln(' ');
-	writeln(SpinnerSpace + 'Project created. CD into ' + ProjectName + ' and type ''nom -r'' to run it');
   CreateProject := true;
 end;
 
@@ -89,6 +88,7 @@ procedure TMyThread.Execute;
 var
   UnZipper: TUnZipper;
   OpenBDFileName: TFileName;
+  InstallTaffy: Boolean;
 begin
   try
     UnZipper := TUnZipper.Create;

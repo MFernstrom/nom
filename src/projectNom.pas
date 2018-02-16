@@ -8,12 +8,12 @@ uses
   {$IFDEF UseCThreads}
   cthreads,
   {$ENDIF}{$ENDIF}
-  Classes, SysUtils, CustApp, UpdateNightly, HTMLTools, Udf,
-  RunProject, NewProject, AddNomProject, ShowProject
-  { you can add units after this };
+  Classes, SysUtils, CustApp, UpdateNightly, HTMLTools, Udf, RunProject,
+  NewProject, AddNomProject, ShowProject, MxUnit, fphttpclient, DeployHeroku;
 
 CONST
   CurrentVersion = '0.1.1';
+  CurrentVersionInt = 11;
 
 var
   RunLocation : String;
@@ -34,15 +34,31 @@ type
 
 procedure TMyApplication.DoRun;
 var
-  ErrorMsg: String;
+  LatestVersion, ErrorMsg: String;
 begin
+  // Version check, before anything else
+  LatestVersion := TFPHTTPClient.SimpleGet('http://marcusfernstrom.com/nom/latestversionint.txt');
+  if LatestVersion.ToInteger > CurrentVersionInt then
+    WriteLn( 'There''s a new version of Nom available, you probably want to update' );
+
   // quick check parameters
-  ErrorMsg:=CheckOptions('huxi:arspcv', 'nom run version');
-  if ErrorMsg<>'' then begin
+  ErrorMsg := CheckOptions('huxi:arspcvx', 'nom run version deploy heroku');
+  if ErrorMsg <> '' then begin
     WriteLn(ErrorMsg);
     Terminate;
     Exit;
   end ;
+
+  if HasOption('deploy') then begin
+    if HasOption('heroku') then
+      deployOnHeroku();
+    Halt;
+  end;
+
+  if HasOption('x') then begin
+    InstallMxunit('');
+    Halt;
+  end;
 
   if HasOption('v', 'version') then begin
     WriteLn('Nom version ' + CurrentVersion);
@@ -89,13 +105,17 @@ begin
   end;
 
   if HasOption('c') then begin
+    try
     CreateProject( GetOptionValue('c') );
     addNom(GetOptionValue('c') + '/');
-    Halt;
-  end;
+    InstallMxunit( GetOptionValue('c') + '/' );
 
-  if HasOption('x') then begin
-		writeln('TEST THINGS');
+    WriteLn('Project created. CD into ' + GetOptionValue('c') + ' and type ''nom -r'' to run it');
+
+    except
+      on E: Exception do
+        WriteLn(E.Message);
+    end;
     Halt;
   end;
 
@@ -104,9 +124,9 @@ begin
     Halt;
   end;
 
-  { add your program here }
+  // If no option was given, display help.
+  ShowHelp();
 
-  // stop program loop
   Terminate;
 end ;
 
@@ -124,25 +144,26 @@ begin
   writeln(' |  | \   |   ''  ''-''  ''|  |   |  |   Version ' + Version);
   writeln(' `--''  `--''    `-----'' `--''   `--''');
   writeln(' ');
-  writeln('nom -c      Create a new OpenBD project');
-  writeln('            Example: nom -c AwesomeProject creates a new folder AwesomeProject and installs the latest OpenBD version');
+  writeln('nom -c <project name>         Create a new OpenBD project');
+  writeln('nom --create <project name>   Example: nom -c AwesomeProject creates a new folder AwesomeProject and installs the latest OpenBD version');
   writeln(' ');
-  writeln('nom -r      Runs the project with a Jetty server');
+  writeln('nom -r                        Runs the project with a Jetty server');
+  writeln('nom --run');
   writeln(' ');
-  writeln('nom -u      Update the projects version of OpenBD to the current Nightly');
+  writeln('nom -u                        Update the projects version of OpenBD to the current Nightly');
+  writeln('nom --update');
   writeln(' ');
-  writeln('nom -h      Shows this wonderful help');
+  writeln('nom -h                        Shows this wonderful help');
+  writeln('nom --help');
   writeln(' ');
-  writeln('nom -x      Runs your unit tests at /mxunit/tests');
+  writeln('nom -i <UDF name>             Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/<udfname>.cfc with the same function name');
+  writeln('nom --install <UDF name>      Example: nom -i IsWeekend. It''s then available as a cfc from CFML');
   writeln(' ');
-  writeln('nom -i      Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/');
-  writeln('            Example: nom -i IsWeekend. It''s then available by calling IsWeekend() from CFML');
+  writeln('nom -s                        Creates nomolicious.ini file for the current project');
+  writeln('nom --setup');
   writeln(' ');
-  writeln('nom -s      Turn existing project into Nom project');
-  writeln(' ');
-  writeln('nom -p      Show information about the current project');
-  writeln(' ');
-  writeln('nom --nom   Update Nom to the latest version');
+  writeln('nom -p                        Show information about the current project');
+  writeln('nom --project');
   writeln(' ');
 end ;
 
