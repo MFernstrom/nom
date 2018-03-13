@@ -9,11 +9,12 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils, CustApp, UpdateNightly, HTMLTools, Udf, RunProject,
-  NewProject, AddNomProject, ShowProject, MxUnit, fphttpclient, DeployHeroku;
+  NewProject, AddNomProject, ShowProject, MxUnit, fphttpclient, DeployHeroku,
+  FileUtil;
 
 CONST
-  CurrentVersion = '0.1.1';
-  CurrentVersionInt = 11;
+  CurrentVersion = '0.1.2';
+  CurrentVersionInt = 12;
 
 var
   RunLocation : String;
@@ -35,11 +36,30 @@ type
 procedure TMyApplication.DoRun;
 var
   LatestVersion, ErrorMsg: String;
+  FoundOpenSSL: Boolean;
 begin
   // Version check, before anything else
   LatestVersion := TFPHTTPClient.SimpleGet('http://marcusfernstrom.com/nom/latestversionint.txt');
   if LatestVersion.ToInteger > CurrentVersionInt then
-    WriteLn( 'There''s a new version of Nom available, you probably want to update' );
+    begin
+      WriteLn( 'There''s a new version of Nom available, you probably want to update' );
+      WriteLn( 'Don''t forget to Star Nom on GitHub :)' );
+    end;
+
+  // OpenSSL check for mac and Linux
+
+  {$IFDEF UNIX}
+    if Length(FindDefaultExecutablePath('openssl')) > 0 then
+      FoundOpenSSL := true
+    else
+      FoundOpenSSL := false;
+  {$ENDIF}
+  {$IFDEF WINDOWS}
+    AProcess.Executable := 'java';
+  {$ENDIF}
+
+  if Not FoundOpenSSL then
+    WriteLn('No OpenSSL, can''t download UDFs');
 
   // quick check parameters
   ErrorMsg := CheckOptions('huxi:arspcvx', 'nom run version deploy heroku');
@@ -51,7 +71,7 @@ begin
 
   if HasOption('deploy') then begin
     if HasOption('heroku') then
-      deployOnHeroku();
+      DeployOnHeroku();
     Halt;
   end;
 
@@ -131,23 +151,21 @@ begin
 end ;
 
 procedure TMyApplication.ShowHelp;
-var
-  Version : String = '0.1.0';
 begin
   writeln('');
 	writeln(' <-. (`-'')_            <-. (`-'')  ');
   writeln('    \( OO) )     .->      \(OO )_ ');
   writeln(' ,--./ ,--/ (`-'')----. ,--./  ,-.)');
   writeln(' |   \ |  | ( OO).-.  ''|   `.''   |');
-  writeln(' |  . ''|  |)( _) | |  ||  |''.''|  |   Nom, the OpenBD utility');
+  writeln(' |  . ''|  |)( _) | |  ||  |''.''|  |');
   writeln(' |  |\    |  \|  |)|  ||  |   |  |');
-  writeln(' |  | \   |   ''  ''-''  ''|  |   |  |   Version ' + Version);
+  writeln(' |  | \   |   ''  ''-''  ''|  |   |  |  Version ' + CurrentVersion);
   writeln(' `--''  `--''    `-----'' `--''   `--''');
   writeln(' ');
   writeln('nom -c <project name>         Create a new OpenBD project');
-  writeln('nom --create <project name>   Example: nom -c AwesomeProject creates a new folder AwesomeProject and installs the latest OpenBD version');
+  writeln('nom --create <project name>   Creates a folder and installs the latest OpenBD version');
   writeln(' ');
-  writeln('nom -r                        Runs the project with a Jetty server');
+  writeln('nom -r                        Runs the project with Jetty');
   writeln('nom --run');
   writeln(' ');
   writeln('nom -u                        Update the projects version of OpenBD to the current Nightly');

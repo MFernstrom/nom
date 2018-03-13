@@ -12,7 +12,7 @@ uses
   Classes, SysUtils,
   CRT, Process, fphttpclient, Zipper, FileUtil, IniFiles, RegExpr;
 
-function deployOnHeroku():Boolean;
+function DeployOnHeroku():Boolean;
 
 var
   IsBusy    : Boolean;
@@ -20,7 +20,7 @@ var
 
 implementation
 
-function deployOnHeroku: Boolean;
+function DeployOnHeroku: Boolean;
 var
   INI: TINIFile;
   HerokuProjectName, s: String;
