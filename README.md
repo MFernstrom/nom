@@ -1,37 +1,32 @@
 # Nom - the OpenBD Utility
-Nom is a small project to create a commandline tool work working with the OpenBD CFML project.
-
-I wanted a simple way to manage projects, install CFLib UDFs, update to the latest version, and so on.
+Nom is a CLI tool for working with OpenBD CFML project.
 
 ## Current Functionality
 As of right now, Nom can:
-* Update an existing project to the latest version of OpenBD
-* Create nomolicious files
+* Update an existing project to the latest version of OpenBD (Beta-quality)
 * Install CFLib UDFs
 * Run server
 * Create project
 * Show info about the current project (Only Nom info at the moment)
-* Show a little info about Nom
 * Download and install MXUnit
 * Deploy to Heroku (See details below)
 
 ## Planned Functionality
-* Run MXUnit tests and display results
-* Update itself to the latest version
+* See the Projects page
 
 ## Using it
-Nom is a CLI utility, download and add it to your PATH, and you should be good to go, but how can you actually use it?
+Nom is a CLI utility, download a release and add it to your PATH, and you should be good to go.
 
 ### Create a new project
 <pre>$ nom -c MyNewProject</pre>
-This will create the MyNewProject folder, download the latest OpenBD version (Nightly version), and create a nomolicious.ini file.
+This will create the MyNewProject folder, download the latest OpenBD version, and create a nomolicious.ini file.
 
 ### Adding CFLib UDFs
 CFLib has lots of useful UDFs, for ease-of-use Nom has the ability to install them for you.
 
 Let's say you want to have the CFLib UDF "IsWeekDay", just run this command
 <pre>$ nom -i IsWeekDay</pre>
-It'll download the UDF from CFLib.org, wrap it as a cfcomponent, and save it to the WEB-INF/customtags/cflib/ directory with the same name as the UDF.
+It'll download the UDF from CFLib.org, wrap it as a cfcomponent, and save it to the WEB-INF/customtags/cflib/IsWeekDay.cfc directory with the same name as the UDF.
 
 ### Running the project
 To run the project just CD to the project root and run
@@ -40,8 +35,13 @@ This will launch a local Jetty server with the port and maxmemory you set up dur
 
 ### Deploying to Heroku
 Heroku deployment is simple.
-Just create a new app in your Heroku account, make sure you have Heroku CLI set up and have logged into it, edit the nomolicious.ini file by adding a [Heroku] section with a ProjectName=<The name you picked in Heroku>
-Now you can just go nom --deploy --heroku and it should create a WAR file of the project and deploy to your Heroku account.
+Just create a new app in your Heroku account, make sure you have Heroku CLI set up and have logged into it, edit the nomolicious.ini file by adding a [Heroku] section like so: 
+
+```
+[Heroku]
+ProjectName={The name you picked in Heroku}
+```
+Then you can use "nom --deploy --heroku" and it will create a WAR file of the project and deploy to your Heroku account.
 
 
 ## OS Compatibility
@@ -90,7 +90,7 @@ nom --nom   Update Nom to the latest version
 Nom is written in Object Pascal using Lazarus
 
 ### License
-Nom is open sourced, licensed under GPL3
+GPL3
 
 ### Roadmap/Plan
 There's no specific roadmap for this project, it's mostly on an 'I want this functionality so I'm adding it'-type of schedule.
