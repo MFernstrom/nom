@@ -43,11 +43,8 @@ ProjectName={The name you picked in Heroku}
 ```
 Then you can use "nom --deploy --heroku" and it will create a WAR file of the project and deploy to your Heroku account.
 
-
 ## OS Compatibility
-The code is pretty cross-platform, I mostly just have to take edgecases into account.
-
-I'm developing this on a Mac, but I'll try to make sure to have releases for Mac, Windows, and Linux when I do non-alpha releases.
+The code is fairly cross-platform, once Nom's out of Beta status there will be releases for Windows, Mac, and Linux.
 
 ## Current State
 Here's the current nom -h output to give you an idea of what's there and what to expect.
@@ -80,8 +77,6 @@ nom -i      Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/
 nom -s      Turn existing project into Nom project
  
 nom -p      Show information about the current project
- 
-nom --nom   Update Nom to the latest version
 </pre>
 
 ## General Information
