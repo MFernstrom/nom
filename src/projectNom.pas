@@ -14,8 +14,8 @@ uses
   FileUtil, zipper, GetOpenSSL, CheckIfNewOpenBD;
 
 CONST
-  CurrentVersion = '0.1.2';
-  CurrentVersionInt = 12;
+  CurrentVersion = '0.1.3';
+  CurrentVersionInt = 13;
 
 var
   RunLocation : String;
@@ -39,6 +39,11 @@ var
   LatestVersion, ErrorMsg, nomUserPath: String;
   FoundOpenSSL: Boolean;
 begin
+  // Random ad
+  Randomize;
+  If Random > 0.7 then
+    WriteLn( 'Don''t forget to Star Nom on GitHub :)' );
+
   // Set nomUserPath
   nomUserPath := getUserDir() + 'nom';
   if not DirectoryExists( nomUserPath ) then
@@ -52,7 +57,6 @@ begin
   if LatestVersion.ToInteger > CurrentVersionInt then
     begin
       WriteLn( 'There''s a new version of Nom available, you probably want to update' );
-      WriteLn( 'Don''t forget to Star Nom on GitHub :)' );
     end;
 
   // OpenSSL check for mac and Linux
@@ -68,9 +72,6 @@ begin
 
   if Not FoundOpenSSL then
     WriteLn('No OpenSSL, can''t download UDFs');
-
-  // Check for OpenBD updates
-  checkOpenBDGitHubVersion();
 
   // quick check parameters
   ErrorMsg := CheckOptions('huxi:arspcvx', 'nom run version deploy heroku');
@@ -137,11 +138,14 @@ begin
 
   if HasOption('c') then begin
     try
-    CreateProject( GetOptionValue('c') );
-    addNom(GetOptionValue('c') + '/');
-    InstallMxunit( GetOptionValue('c') + '/' );
+      // Check for OpenBD updates
+      updateOpenBDIfPossible();
 
-    WriteLn('Project created. CD into ' + GetOptionValue('c') + ' and type ''nom -r'' to run it');
+      CreateProject( GetOptionValue('c') );
+      addNom(GetOptionValue('c') + '/');
+      InstallMxunit( GetOptionValue('c') + '/' );
+
+      WriteLn('Project created. CD into ' + GetOptionValue('c') + ' and type ''nom -r'' to run it');
 
     except
       on E: Exception do
@@ -178,9 +182,9 @@ begin
   writeln(' ');
   writeln('nom -r                        Runs the project with Jetty');
   writeln('nom --run');
-  writeln(' ');
-  writeln('nom -u                        Update the projects version of OpenBD to the current Nightly');
-  writeln('nom --update');
+  //writeln(' ');
+  //writeln('nom -u                        Update the projects version of OpenBD to the current Nightly');
+  //writeln('nom --update');
   writeln(' ');
   writeln('nom -h                        Shows this wonderful help');
   writeln('nom --help');

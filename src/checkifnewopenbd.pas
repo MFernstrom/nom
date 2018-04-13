@@ -10,11 +10,11 @@ uses
 CONST
   GitHubLatestOpenBD = 'https://api.github.com/repos/OpenBD/openbd-core/releases/latest';
 
-function checkOpenBDGitHubVersion:String;
+function updateOpenBDIfPossible:String;
 
 implementation
 
-function checkOpenBDGitHubVersion: String;
+function updateOpenBDIfPossible: String;
 var
   FHTTPClient: TFPHTTPClient;
   jData : TJSONData;
@@ -61,10 +61,6 @@ begin
           WriteLn( 'Downloading OpenBD' );
           FHTTPClient.Get( tObject.Find('browser_download_url').AsString, corePath + PathDelim + tagName + '.zip' );
 
-        end
-        else
-        begin
-          WriteLn( 'Using the latest engine' );
         end;
 
       end;
