@@ -10,7 +10,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils,
-  Process, Crt, ProjectInfo;
+  Process, Crt, ProjectInfo, LCLIntf;
 
 function runServer( RunLocation: String ):Boolean;
 
@@ -98,6 +98,7 @@ begin
                   WriteLn(' ');
                   WriteLn('Server is ready on port ' + RunPort);
                   WriteLn(' ');
+                  OpenURL('http://localhost:' + RunPort);
                 end;
           end;
         end;

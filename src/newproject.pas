@@ -10,7 +10,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils,
-  CRT, fphttpclient, Zipper, FileUtil;
+  CRT, Zipper, FileUtil;
 
 function CreateProject( Name: String ): Boolean;
 
@@ -62,7 +62,7 @@ begin
 	IsBusy := true;
 
   NewOpenBDProjectThread.Start;
-  writeln( SpinnerSpace + 'Downloading OpenBD Nightly and creating project' );
+  writeln( SpinnerSpace + 'Unzipping into ' + ProjectName );
 
   CursorOff;
   while IsBusy do
@@ -87,26 +87,27 @@ end;
 procedure TMyThread.Execute;
 var
   UnZipper: TUnZipper;
-  OpenBDFileName: TFileName;
   InstallTaffy: Boolean;
+  OpenBDZip: TStringList;
 begin
+  OpenBDZip := TStringList.Create;
   try
     UnZipper := TUnZipper.Create;
-	  OpenBDFileName := 'OpenBlueDragon.zip';
-
-	  TFPHTTPClient.SimpleGet('http://openbd.org/download/nightly/openbd.war', OpenBDFileName);
 
     CreateDir(ProjectName);
 
-    UnZipper.FileName := OpenBDFileName;
+    // Get engine zip file path + name
+    FindAllFiles(OpenBDZip, GetUserDir() + 'nom' + PathDelim + 'engines', '*.zip', false);
+
+    // Copy engine files
+    UnZipper.FileName := OpenBDZip[0];
     UnZipper.OutputPath := ProjectName;
     UnZipper.Examine;
     UnZipper.UnZipAllFiles;
 
-    DeleteFile( OpenBDFileName );
-
     IsBusy := false;
   finally
+    OpenBDZip.Free;
     UnZipper.Free;
   end;
 end ;

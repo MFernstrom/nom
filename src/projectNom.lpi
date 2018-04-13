@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="10"/>
+    <Version Value="11"/>
     <General>
       <Flags>
         <MainUnitHasCreateFormStatements Value="False"/>
@@ -50,6 +50,9 @@
             </Debugging>
             <LinkSmart Value="True"/>
           </Linking>
+          <Other>
+            <CustomOptions Value="-dUseCThreads"/>
+          </Other>
         </CompilerOptions>
       </Item2>
       <Item3 Name="Linux x64">
@@ -119,19 +122,23 @@
       <IncludeFileFilter Value="*.(pas|pp|inc|lpr|lfm|lrs|lpi|lpk|xml|sh|jar|gitignore)"/>
     </PublishOptions>
     <RunParams>
-      <local>
-        <FormatVersion Value="1"/>
-      </local>
+      <FormatVersion Value="2"/>
+      <Modes Count="1">
+        <Mode0 Name="default"/>
+      </Modes>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="LazUtils"/>
+        <PackageName Value="LCLBase"/>
       </Item1>
       <Item2>
-        <PackageName Value="MultiThreadProcsLaz"/>
+        <PackageName Value="LazUtils"/>
       </Item2>
+      <Item3>
+        <PackageName Value="MultiThreadProcsLaz"/>
+      </Item3>
     </RequiredPackages>
-    <Units Count="11">
+    <Units Count="13">
       <Unit0>
         <Filename Value="projectNom.pas"/>
         <IsPartOfProject Value="True"/>
@@ -186,6 +193,16 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="DeployHeroku"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="getopenssl.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GetOpenSSL"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="checkifnewopenbd.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="CheckIfNewOpenBD"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -5,12 +5,13 @@ program projectNom;
 uses
   {$IFDEF UNIX}
   cwstring,
-  {$IFDEF UseCThreads}
-  cthreads,
-  {$ENDIF}{$ENDIF}
+    {$IFDEF UseCThreads}
+    cthreads,
+    {$ENDIF}
+  {$ENDIF}
   Classes, SysUtils, CustApp, UpdateNightly, HTMLTools, Udf, RunProject,
   NewProject, AddNomProject, ShowProject, MxUnit, fphttpclient, DeployHeroku,
-  FileUtil;
+  FileUtil, zipper, GetOpenSSL, CheckIfNewOpenBD;
 
 CONST
   CurrentVersion = '0.1.2';
@@ -35,9 +36,17 @@ type
 
 procedure TMyApplication.DoRun;
 var
-  LatestVersion, ErrorMsg: String;
+  LatestVersion, ErrorMsg, nomUserPath: String;
   FoundOpenSSL: Boolean;
 begin
+  // Set nomUserPath
+  nomUserPath := getUserDir() + 'nom';
+  if not DirectoryExists( nomUserPath ) then
+    begin
+      WriteLn('Creating Nom directory at ' + nomUserPath + ' for settings and caching engine versions.');
+      CreateDir( nomUserPath );
+    end;
+
   // Version check, before anything else
   LatestVersion := TFPHTTPClient.SimpleGet('http://marcusfernstrom.com/nom/latestversionint.txt');
   if LatestVersion.ToInteger > CurrentVersionInt then
@@ -47,7 +56,6 @@ begin
     end;
 
   // OpenSSL check for mac and Linux
-
   {$IFDEF UNIX}
     if Length(FindDefaultExecutablePath('openssl')) > 0 then
       FoundOpenSSL := true
@@ -55,11 +63,14 @@ begin
       FoundOpenSSL := false;
   {$ENDIF}
   {$IFDEF WINDOWS}
-    AProcess.Executable := 'java';
+    InstallOpenSSL( ExtractFilePath(ParamStr(0)) );
   {$ENDIF}
 
   if Not FoundOpenSSL then
     WriteLn('No OpenSSL, can''t download UDFs');
+
+  // Check for OpenBD updates
+  checkOpenBDGitHubVersion();
 
   // quick check parameters
   ErrorMsg := CheckOptions('huxi:arspcvx', 'nom run version deploy heroku');
