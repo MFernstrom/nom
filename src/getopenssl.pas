@@ -17,6 +17,8 @@ var
   UnZipper: TUnZipper;
   FHTTPClient: TFPHTTPClient;
 begin
+  cOpenSSLURL := '';
+
   LibeayDLL := ParamPath + 'libeay32.dll';
   SsleayDLL := ParamPath + 'ssleay32.dll';
 
@@ -66,6 +68,8 @@ begin
       end;
       WriteLn('All set');
     end;
+
+  result := true;
 end;
 
 end.

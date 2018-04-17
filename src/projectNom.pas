@@ -6,7 +6,7 @@ uses
   {$IFDEF UNIX}
   cwstring,
     {$IFDEF UseCThreads}
-    cthreads,
+    cthreads, cmem,
     {$ENDIF}
   {$ENDIF}
   Classes, SysUtils, CustApp, UpdateNightly, HTMLTools, Udf, RunProject,
@@ -41,11 +41,12 @@ var
 begin
   // Random ad
   Randomize;
-  If Random > 0.7 then
+  if Random > 0.7 then
     WriteLn( 'Don''t forget to Star Nom on GitHub :)' );
 
   // Set nomUserPath
   nomUserPath := getUserDir() + 'nom';
+
   if not DirectoryExists( nomUserPath ) then
     begin
       WriteLn('Creating Nom directory at ' + nomUserPath + ' for settings and caching engine versions.');
@@ -59,7 +60,7 @@ begin
       WriteLn( 'There''s a new version of Nom available, you probably want to update' );
     end;
 
-  // OpenSSL check for mac and Linux
+  // OpenSSL checks
   {$IFDEF UNIX}
     if Length(FindDefaultExecutablePath('openssl')) > 0 then
       FoundOpenSSL := true

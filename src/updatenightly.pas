@@ -37,6 +37,9 @@ function UpdateOpenBD( FullReplace : Boolean ): boolean;
 var
     UpdateOpenBDThread : TMyThread;
 begin
+  if FullReplace = true then
+  	WriteLn('Full replace is not yet implemented');
+
   UpdateOpenBDThread := TMyThread.Create(True); // This way it doesn't start automatically
 	spinnerId := 1;
 
