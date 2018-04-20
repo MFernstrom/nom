@@ -1,9 +1,8 @@
 # Nom - the OpenBD Utility
-Nom is a CLI tool for working with OpenBD CFML project.
+Nom is a CLI tool for [OpenBD CFML](http://openbd.org/) projects.
 
 ## Current Functionality
 As of right now, Nom can:
-* Update an existing project to the latest version of OpenBD (Beta-quality)
 * Install CFLib UDFs
 * Run server
 * Create project
@@ -12,7 +11,7 @@ As of right now, Nom can:
 * Deploy to Heroku (See details below)
 
 ## Planned Functionality
-* See the Projects page
+* See the [Projects](https://github.com/MFernstrom/nom/projects) page
 
 ## Installing Nom
 Nom is a CLI program and needs to be added to your Path.
@@ -61,7 +60,7 @@ Here's the current nom -h output to give you an idea of what's there and what to
  |   \ |  | ( OO).-.  '|   `.'   |
  |  . '|  |)( _) | |  ||  |'.'|  |   Nom, the OpenBD utility
  |  |\    |  \|  |)|  ||  |   |  |
- |  | \   |   '  '-'  '|  |   |  |   Version 0.1.0
+ |  | \   |   '  '-'  '|  |   |  |   Version 0.1.4
  `--'  `--'    `-----' `--'   `--'
  
 nom -c      Create a new OpenBD project
