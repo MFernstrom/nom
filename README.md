@@ -15,7 +15,9 @@ As of right now, Nom can:
 
 ## Installing Nom
 Nom is a CLI program and needs to be added to your Path.
+
 Mac: http://osxdaily.com/2014/08/14/add-new-path-to-path-command-line/
+
 Windows: http://www.itprotoday.com/management-mobility/how-can-i-add-new-folder-my-system-path
 
 In the future I'll make proper installers.
