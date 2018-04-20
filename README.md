@@ -40,7 +40,7 @@ This will launch a local Jetty server with the port and maxmemory you set up dur
 
 ### Deploying to Heroku
 Heroku deployment is simple.
-Just create a new app in your Heroku account, make sure you have Heroku CLI set up and have logged into it, edit the nomolicious.ini file by adding a [Heroku] section like so: 
+Just create a new app in your Heroku account, make sure you have Heroku CLI set up and have logged into it, then add a [Heroku] section to the nomolicious.ini file in the project directory: 
 
 ```
 [Heroku]
