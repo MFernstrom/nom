@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils,
-  fphttpclient, Zipper;
+  fphttpclient, Zipper, HTMLTools;
 
 function InstallMxunit( Path: String ): boolean;
 
@@ -15,21 +15,17 @@ implementation
 function InstallMxunit( Path: String ): boolean;
 var
   mxurl: String;
-  cli: TFPHTTPClient;
   UnZipper: TUnZipper;
 begin
   mxurl := 'https://github.com/mxunit/mxunit/archive/master.zip';
   WriteLn('Fetching MXUnit from GitHub');
 
   // Create http client and unzipper
-  cli := TFPHTTPClient.Create(nil);
+  downloadFromGitHub('mxunit-latest.zip', mxurl);
+
   UnZipper := TUnZipper.Create;
-  cli.AllowRedirect:=true;
   try
     try
-      // Get the file
-      Cli.Get(mxurl, 'mxunit-latest.zip');
-
       // Unzip the whole mess
       UnZipper.FileName := 'mxunit-latest.zip';
       UnZipper.OutputPath := Path;
@@ -44,7 +40,6 @@ begin
         writeln( E.Message );
     end;
   finally
-    Cli.Free;
     UnZipper.Free;
     DeleteFile( 'mxunit-latest.zip' );
   end;

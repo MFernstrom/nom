@@ -14,8 +14,8 @@ uses
   FileUtil, zipper, GetOpenSSL, CheckIfNewOpenBD;
 
 CONST
-  CurrentVersion = '0.1.3';
-  CurrentVersionInt = 13;
+  CurrentVersion = '0.1.4';
+  CurrentVersionInt = 14;
 
 var
   RunLocation : String;

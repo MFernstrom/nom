@@ -5,7 +5,7 @@ unit CheckIfNewOpenBD;
 interface
 
 uses
-  Classes, SysUtils, fphttpclient, fpjson, jsonparser, FileUtil, Zipper;
+  Classes, SysUtils, fphttpclient, fpjson, jsonparser, FileUtil, ns_url_request, HTMLTools;
 
 CONST
   GitHubLatestOpenBD = 'https://api.github.com/repos/OpenBD/openbd-core/releases/latest';
@@ -13,6 +13,75 @@ CONST
 function updateOpenBDIfPossible:String;
 
 implementation
+
+function GetJSONWindows(const AURL: String; out AJSON: TJSONStringType): Boolean;
+var
+  Ms: TMemoryStream;
+  HTTPClient: TFPHTTPClient;
+begin
+  Result := False;
+  Ms := TMemoryStream.Create;
+  try
+    HTTPClient := TFPHTTPClient.Create(nil);
+    try
+      HTTPClient.AllowRedirect := True;
+      HTTPClient.AddHeader('User-Agent', 'Mozilla/5.0 (compatible; fpweb)');
+      HTTPClient.AddHeader('Content-Type', 'application/json');
+      HTTPClient.HTTPMethod('GET', AURL, MS, []);
+      if HTTPClient.ResponseStatusCode = 200 then
+      begin
+        if Ms.Size > 0 then
+        begin
+          MS.Position := 0;
+          SetLength(AJSON, MS.Size);
+          MS.Read(Pointer(AJSON)^, Length(AJSON));
+          Result := Length(AJSON) > 0;
+        end;
+      end;
+    except
+      Result := False;
+    end;
+  finally
+    Ms.Free;
+  end;
+end;
+
+
+function GetJSONOsx(const AURL: String; out AJSON: TJSONStringType): Boolean;
+var
+  HTTPClient: TNSHTTPSendAndReceive;
+  Headers: TStringList;
+  Ms: TMemoryStream;
+begin
+  Result := False;
+  Ms := TMemoryStream.Create;
+  try
+    HTTPClient := TNSHTTPSendAndReceive.Create;
+        try
+          HTTPClient.Address := AURL;
+          Headers := TStringList.Create;
+          Headers.Add('User-Agent=Mozilla/5.0 (compatible; fpweb)');
+          Headers.Add('Content-Type=application/json');
+          if HTTPClient.SendAndReceive(nil, Ms, Headers) then
+      begin
+        if Ms.Size > 0 then
+        begin
+          MS.Position := 0;
+          SetLength(AJSON, MS.Size);
+          MS.Read(Pointer(AJSON)^, Length(AJSON));
+          Result := Length(AJSON) > 0;
+        end;
+      end;
+    except
+      Result := False;
+    end;
+  finally
+    Ms.Free;
+  end;
+end;
+
+
+
 
 function updateOpenBDIfPossible: String;
 var
@@ -22,13 +91,27 @@ var
   jArray : TJSONArray;
   i: Integer;
   outPath, corePath, tagName: String;
-  UnZipper: TUnZipper;
+  gitUrl: String;
+  JSON: TJSonStringType;
 begin
+  gitUrl := 'http://api.github.com/repos/OpenBD/openbd-core/releases/latest';
+
+  // Get json data from GitHub.
+  {$IFDEF UNIX}
+    if getJSONOsx(gitUrl, JSON) then
+        jData := GetJSON(JSON);
+  {$ENDIF}
+
+  {$IFDEF WINDOWS}
+    if getJSONWindows(gitUrl, JSON) then
+        jData := GetJSON(JSON);
+  {$ENDIF}
+
   FHTTPClient := TFPHTTPClient.Create(nil);
+  FHTTPClient.AllowRedirect:=true;
+  FHTTPClient.AddHeader('User-Agent', 'Nom');
+
   try
-    FHTTPClient.AllowRedirect:=true;
-    FHTTPClient.AddHeader('User-Agent', 'Nom');
-    jData := GetJSON(FHTTPClient.Get( 'http://api.github.com/repos/OpenBD/openbd-core/releases/latest' ));
     jObject := TJSONObject(jData);
     jArray := TJSONArray.Create;
     jArray := jObject.Arrays['assets'];
@@ -56,11 +139,9 @@ begin
           if not DirectoryExists( corePath ) then
             CreateDir( corePath );
 
-          //CreateDir( outPath );
-
           WriteLn( 'Downloading OpenBD' );
-          FHTTPClient.Get( tObject.Find('browser_download_url').AsString, corePath + PathDelim + tagName + '.zip' );
 
+          downloadFromGitHub( corePath + PathDelim + tagName + '.zip', tObject.Find('browser_download_url').AsString );
         end;
 
       end;
