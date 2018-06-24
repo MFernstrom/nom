@@ -6,7 +6,7 @@ uses
   {$IFDEF UNIX}
   cwstring,
     {$IFDEF UseCThreads}
-    cthreads, cmem,
+      cthreads, cmem,
     {$ENDIF}
   {$ENDIF}
   Classes, SysUtils, CustApp, UpdateNightly, HTMLTools, Udf, RunProject,
@@ -14,8 +14,8 @@ uses
   FileUtil, zipper, GetOpenSSL, CheckIfNewOpenBD;
 
 CONST
-  CurrentVersion = '0.1.4';
-  CurrentVersionInt = 14;
+  CurrentVersion = '0.1.6';
+  CurrentVersionInt = 16;
 
 var
   RunLocation : String;
@@ -41,7 +41,7 @@ var
 begin
   // Random ad
   Randomize;
-  if Random > 0.7 then
+  if Random > 0.8 then
     WriteLn( 'Don''t forget to Star Nom on GitHub :)' );
 
   // Set nomUserPath
@@ -75,7 +75,7 @@ begin
     WriteLn('No OpenSSL, can''t download UDFs');
 
   // quick check parameters
-  ErrorMsg := CheckOptions('huxi:arspcvx', 'nom run version deploy heroku');
+  ErrorMsg := CheckOptions('huxi:arspcvx', 'nom run version deploy heroku open');
   if ErrorMsg <> '' then begin
     WriteLn(ErrorMsg);
     Terminate;
@@ -109,7 +109,7 @@ begin
   end;
 
   if HasOption('r', 'run') then begin
-    runServer(RunLocation);
+    runServer(RunLocation, HasOption('open'));
     Halt;
   end;
 
@@ -183,9 +183,15 @@ begin
   writeln(' ');
   writeln('nom -r                        Runs the project with Jetty');
   writeln('nom --run');
+  writeln(' ');
+  writeln('nom --open                    Used with -r/--run to open the browser when the server is ready');
   //writeln(' ');
   //writeln('nom -u                        Update the projects version of OpenBD to the current Nightly');
   //writeln('nom --update');
+  writeln(' ');
+  writeln('nom --deploy                  Deploys application with target, only Heroku implemented at the moment');
+  writeln('nom --heroku                  Deployment target - Requires you to be logged into Heroku CLI tools');
+  writeln('                              and have a [Heroku] section with a ProjectName=appname in the Nomolicious file');
   writeln(' ');
   writeln('nom -h                        Shows this wonderful help');
   writeln('nom --help');

@@ -5,7 +5,7 @@ unit HTMLTools;
 interface
 
 uses
-  Classes, SysUtils, fphttpclient, ns_url_request;
+  Classes, SysUtils, fphttpclient {$IFDEF Darwin},ns_url_request{$ENDIF};
 
 function UnescapeHTML( untidy : String ): String;
 function downloadFromGitHub( location, url: String ): Boolean;
@@ -46,6 +46,7 @@ begin
   end;
 end;
 
+{$IFDEF Darwin}
 function downloadOsx( location, gitUrl: String ): Boolean;
 var
   OutStream:TFilestream;
@@ -74,7 +75,7 @@ begin
   end;
   result := true;
 end;
-
+{$ENDIF}
 
 function downloadFromGitHub( location, url: String ): Boolean;
 begin

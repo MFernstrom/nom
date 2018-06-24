@@ -10,56 +10,121 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Classes, SysUtils,
-  CRT, Process, fphttpclient, Zipper, FileUtil, IniFiles, RegExpr;
+  CRT, Process, FileUtil, IniFiles, RegExpr;
+
+Type
+    { TMyThread }
+
+    TMyThread = class(TThread)
+    protected
+      procedure Execute; override;
+    public
+      Constructor Create(CreateSuspended : boolean);
+    end;
 
 function DeployOnHeroku():Boolean;
 
 var
-  IsBusy    : Boolean;
   AProcess  : TProcess;
+  Spinners : array [1..4] of String;
+  X,Y, spinnerId: Integer;
+  OpenBDFileName: TFileName;
+  IsBusy : Boolean;
+  HerokuProjectName: String;
+  SpinnerSpace : String = '   ';
+  DeploySuccess: Boolean;
+  d: String;
 
 implementation
 
-function DeployOnHeroku: Boolean;
+function DeployOnHeroku(): boolean;
 var
+  DeployOnHerokuThread : TMyThread;
   INI: TINIFile;
-  HerokuProjectName, s: String;
-  RegexObj: TRegExpr;
 begin
-  AProcess := TProcess.Create(nil);
+  DeployOnHerokuThread := TMyThread.Create(True); // This way it doesn't start automatically
+  DeploySuccess := false;
+	spinnerId := 1;
+
+  spinners[1] := '\';
+  spinners[2] := '|';
+  spinners[3] := '/';
+  spinners[4] := '-';
+
   INI := TINIFile.Create( 'nomolicious.ini' );
-  RegexObj := TRegExpr.Create('.*\s+(https://mf-testwar.herokuapp.com/) deployed to Heroku');
 
   try
-    WriteLn('Checking project');
     HerokuProjectName := INI.ReadString('Heroku', 'ProjectName', '');
 
-    if Length(HerokuProjectName) > 0 then
-    begin
-      WriteLn('Found Heroku settings');
-      WriteLn('Creating WAR file for deployment');
-      RunCommandIndir(GetCurrentDir, '/bin/bash',['-c','jar -cvf Heroku.war *'], s);
+    if Length(HerokuProjectName) > 0 then begin
+      WriteLn(SpinnerSpace + 'Creating WAR file and deploying ' + HerokuProjectName + ' to Heroku (This might take a while)');
 
-      WriteLn('Deploying ' + HerokuProjectName + ' to Heroku');
-      RunCommandIndir(GetCurrentDir, '/bin/bash',['-c','heroku war:deploy Heroku.war --app ' + HerokuProjectName], s);
+      Y := WhereY -1;
 
-      if pos('ERROR', s) > 0 then
+	    IsBusy := true;
+
+      DeployOnHerokuThread.Start;
+
+      CursorOff;
+      while IsBusy do
       begin
-        WriteLn('App could not deploy');
-        WriteLn( s );
-      end
-      else
-        begin
-          if RegexObj.Exec(s) then
-            WriteLn('App has been deployed to ' + RegexObj.Match[1]);
-          RegexObj.Free;
-        end;
+        GotoXY(1, Y);
+        write( spinners[spinnerId] );
+		    spinnerId := spinnerId + spinnerId;
+        if( spinnerId > length(spinners) ) then
+          spinnerId := 1;
+
+        delay(80);
+      end;
+
+      CursorOn;
+	    GotoXY(1, Y);
+      write(' ');
+      writeln(' ');
+      if DeploySuccess = true then
+        WriteLn('App has been deployed to https://' + HerokuProjectName + '.herokuapp.com')
+      else begin
+        WriteLn('Failed to deploy. Data below');
+        WriteLn(d);
+      end;
     end
     else
       WriteLn('This is not a Heroku project')
+
   finally
   end;
 
+  DeployOnHeroku := true;
+end;
+
+{ TMyThread }
+
+procedure TMyThread.Execute;
+var
+  s: String;
+begin
+  RunCommandIndir(GetCurrentDir, '/bin/bash',['-c','jar -cvf Heroku.war *'], s);
+  RunCommandIndir(GetCurrentDir, '/bin/bash',['-c','heroku war:deploy Heroku.war --app ' + HerokuProjectName], s);
+
+  d := s;
+
+  IsBusy := false;
+
+  WriteLn(' ');
+
+  if pos('ERROR', s) > 0 then begin
+    WriteLn('App could not deploy');
+    WriteLn( s );
+  end
+  else
+    if pos('https://' + HerokuProjectName + '.herokuapp.com', s) > 0 then
+      DeploySuccess := true;
+end;
+
+constructor TMyThread.Create(CreateSuspended : boolean);
+begin
+  inherited Create(CreateSuspended); // because this is black box in OOP and can reset inherited to the opposite again...
+  FreeOnTerminate := True;  // better code...
 end;
 
 end.

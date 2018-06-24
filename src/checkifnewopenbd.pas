@@ -5,7 +5,7 @@ unit CheckIfNewOpenBD;
 interface
 
 uses
-  Classes, SysUtils, fphttpclient, fpjson, jsonparser, FileUtil, ns_url_request, HTMLTools;
+  Classes, SysUtils, fphttpclient, fpjson, jsonparser, FileUtil{$IFDEF Darwin}, ns_url_request{$ENDIF}, HTMLTools;
 
 CONST
   GitHubLatestOpenBD = 'https://api.github.com/repos/OpenBD/openbd-core/releases/latest';
@@ -46,7 +46,7 @@ begin
   end;
 end;
 
-
+{$IFDEF Darwin}
 function GetJSONOsx(const AURL: String; out AJSON: TJSONStringType): Boolean;
 var
   HTTPClient: TNSHTTPSendAndReceive;
@@ -79,7 +79,7 @@ begin
     Ms.Free;
   end;
 end;
-
+{$ENDIF}
 
 
 

@@ -12,7 +12,7 @@ uses
   Classes, SysUtils,
   Process, Crt, ProjectInfo, LCLIntf;
 
-function runServer( RunLocation: String ):Boolean;
+function runServer( RunLocation: String; OpenOnReady: Boolean ):Boolean;
 
 const
   BUF_SIZE = 2048; // Buffer size for reading the output in chunks
@@ -36,7 +36,7 @@ function LStreamReadChunk(const AStream: TStream): String;
     SetString(Result, LBuffer, AStream.Read(LBuffer, SizeOf(LBuffer)));
   end;
 
-function runServer( RunLocation: String ): Boolean;
+function runServer( RunLocation: String; OpenOnReady: Boolean ): Boolean;
 var
   sl: TStringList;
   tmp: String;
@@ -98,7 +98,9 @@ begin
                   WriteLn(' ');
                   WriteLn('Server is ready on port ' + RunPort);
                   WriteLn(' ');
-                  OpenURL('http://localhost:' + RunPort);
+
+                  if OpenOnReady then
+                    OpenURL('http://localhost:' + RunPort);
                 end;
           end;
         end;
