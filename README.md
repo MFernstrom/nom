@@ -1,5 +1,14 @@
-# Nom - the OpenBD Utility
-Nom is a CLI tool for [OpenBD CFML](http://openbd.org/) projects.
+# Nom - OpenBD CLI Tool
+Nom is a commandline tool for OpenBD CFML projects.
+
+[OpenBD Website](http://openbd.org/) - [OpenBD GitHub](https://github.com/OpenBD/openbd-core)
+
+![OpenBD Banner](https://github.com/OpenBD/openbd-core/blob/master/openBD_logo_788x150px.png?raw=true "OpenBD banner")
+
+Nom is built with
+
+![Built with Freepascal logo](built_with_fpc_logo.png?raw=true "Built with Freepascal logo")
+![Built with Lazarus logo](built_with_lazarus_logo.png?raw=true "Built with Lazarus logo")
 
 ## Current Functionality
 As of right now, Nom can:
