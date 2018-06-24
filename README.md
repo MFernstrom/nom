@@ -56,38 +56,44 @@ Here's the current nom -h output to give you an idea of what's there and what to
 
 <pre>
 
- <-. (`-')_            <-. (`-')  
+  <-. (`-')_            <-. (`-')  
     \( OO) )     .->      \(OO )_ 
  ,--./ ,--/ (`-')----. ,--./  ,-.)
  |   \ |  | ( OO).-.  '|   `.'   |
- |  . '|  |)( _) | |  ||  |'.'|  |   Nom, the OpenBD utility
+ |  . '|  |)( _) | |  ||  |'.'|  |
  |  |\    |  \|  |)|  ||  |   |  |
- |  | \   |   '  '-'  '|  |   |  |   Version 0.1.4
+ |  | \   |   '  '-'  '|  |   |  |  Version 0.1.6
  `--'  `--'    `-----' `--'   `--'
  
-nom -c      Create a new OpenBD project
-            Example: nom -c AwesomeProject creates a new folder AwesomeProject and installs the latest OpenBD version
+nom -c <project name>         Create a new OpenBD project
+nom --create <project name>   Creates a folder and installs the latest OpenBD version
  
-nom -r      Runs the project with a Jetty server
+nom -r                        Runs the project with Jetty
+nom --run
  
-nom -u      Update the projects version of OpenBD to the current Nightly
+nom --open                    Used with -r/--run to open the browser when the server is ready
  
-nom -h      Shows this wonderful help
+nom --deploy                  Deploys application with target, only Heroku implemented at the moment
+nom --heroku                  Deployment target - Requires you to be logged into Heroku CLI tools
+                              and have a [Heroku] section with a ProjectName=appname in the Nomolicious file
  
-nom -x      Runs your unit tests at /mxunit/tests
+nom -h                        Shows this wonderful help
+nom --help
  
-nom -i      Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/
-            Example: nom -i IsWeekend. It's then available by calling IsWeekend() from CFML
+nom -i <UDF name>             Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/<udfname>.cfc with the same function name
+nom --install <UDF name>      Example: nom -i IsWeekend. It's then available as a cfc from CFML
  
-nom -s      Turn existing project into Nom project
+nom -s                        Creates nomolicious.ini file for the current project
+nom --setup
  
-nom -p      Show information about the current project
+nom -p                        Show information about the current project
+nom --project
 </pre>
 
 ## General Information
 
 ### Language
-Nom is written in Object Pascal using Lazarus
+Nom is written in Object Pascal using Freepascal and Lazarus
 
 ### License
 GPL3
