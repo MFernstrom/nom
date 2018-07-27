@@ -41,6 +41,7 @@ var
   sl: TStringList;
   tmp: String;
   HasNotifiedStarted: Boolean;
+  Key: Char;
 begin
   HasNotifiedStarted := false;
   AProcess := TProcess.Create(nil);
@@ -74,13 +75,21 @@ begin
     AProcess.Execute;
 
     repeat
-      if KeyPressed then
-        if ReadKey = ^C then
-          begin
+      if KeyPressed then begin
+        Key := ReadKey;
+
+        Case Key Of
+          #111 : Begin
+            OpenURL('http://localhost:' + RunPort);
+          End;
+
+          ^C : Begin
             WriteLn('');
             WriteLn('Stopping server');
             AProcess.Terminate(0);
-          end;
+          End;
+        end;
+      end;
 
       if AProcess.Output.NumBytesAvailable > 0 then
         begin
@@ -100,7 +109,11 @@ begin
                   WriteLn(' ');
 
                   if OpenOnReady then
-                    OpenURL('http://localhost:' + RunPort);
+                    OpenURL('http://localhost:' + RunPort)
+                  else
+                    WriteLn('Open browser by pressing ''o'' (as in open)');
+
+                  WriteLn('Stop by pressing CTRL + C');
                 end;
           end;
         end;

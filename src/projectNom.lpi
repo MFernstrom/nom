@@ -20,9 +20,9 @@
     </General>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="1"/>
-      <RevisionNr Value="3"/>
+      <MinorVersionNr Value="2"/>
       <Attributes pvaPreRelease="True"/>
+      <StringTable ProductName="Nom" ProductVersion="0.2.0"/>
     </VersionInfo>
     <BuildModes Count="4">
       <Item1 Name="MacOS" Default="True"/>
@@ -38,7 +38,7 @@
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
-            <TargetOS Value="darwin"/>
+            <TargetOS Value="win64"/>
             <Optimizations>
               <OptimizationLevel Value="3"/>
             </Optimizations>
@@ -138,7 +138,7 @@
         <PackageName Value="MultiThreadProcsLaz"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="14">
       <Unit0>
         <Filename Value="projectNom.pas"/>
         <IsPartOfProject Value="True"/>
@@ -203,6 +203,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="CheckIfNewOpenBD"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="askheroku.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="AskHeroku"/>
+      </Unit13>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

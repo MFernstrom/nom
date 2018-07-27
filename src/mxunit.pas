@@ -18,7 +18,7 @@ var
   UnZipper: TUnZipper;
 begin
   mxurl := 'https://github.com/mxunit/mxunit/archive/master.zip';
-  WriteLn('Fetching MXUnit from GitHub');
+  WriteLn('Downloading MXUnit from GitHub');
 
   // Create http client and unzipper
   downloadFromGitHub('mxunit-latest.zip', mxurl);
