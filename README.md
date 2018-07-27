@@ -49,7 +49,10 @@ This will launch a local Jetty server with the port and maxmemory you set up dur
 
 ### Deploying to Heroku
 Heroku deployment is simple.
-Just create a new app in your Heroku account, make sure you have Heroku CLI set up and have logged into it, then add a [Heroku] section to the nomolicious.ini file in the project directory: 
+
+* Create a new app in your Heroku account
+* Log into Heroku CLI on your computer (Otherwise Nom can't use Heroku)
+* Enter the name of your app when creating the local project with `Nom -c` or add a [Heroku] section to the nomolicious.ini file in the project directory: 
 
 ```
 [Heroku]
@@ -65,38 +68,41 @@ Here's the current nom -h output to give you an idea of what's there and what to
 
 <pre>
 
-  <-. (`-')_            <-. (`-')  
+ <-. (`-')_            <-. (`-')  
     \( OO) )     .->      \(OO )_ 
  ,--./ ,--/ (`-')----. ,--./  ,-.)
  |   \ |  | ( OO).-.  '|   `.'   |
  |  . '|  |)( _) | |  ||  |'.'|  |
  |  |\    |  \|  |)|  ||  |   |  |
- |  | \   |   '  '-'  '|  |   |  |  Version 0.1.6
+ |  | \   |   '  '-'  '|  |   |  |  Version 0.2.0
  `--'  `--'    `-----' `--'   `--'
  
-nom -c <project name>         Create a new OpenBD project
-nom --create <project name>   Creates a folder and installs the latest OpenBD version
+ -c <project name>         Creates a new project with the latest release of OpenBD
+--create <project name>
  
-nom -r                        Runs the project with Jetty
-nom --run
+ -r                        Runs the project
+--run
+
+--open                    Used with -r/--run to open the browser when the server is ready
  
-nom --open                    Used with -r/--run to open the browser when the server is ready
+--website                 Opens the projects Git repo
  
-nom --deploy                  Deploys application with target, only Heroku implemented at the moment
-nom --heroku                  Deployment target - Requires you to be logged into Heroku CLI tools
+--deploy                  Deploys application with target, only Heroku implemented at the moment
+--heroku                  Deployment target - Requires you to be logged into Heroku CLI tools
                               and have a [Heroku] section with a ProjectName=appname in the Nomolicious file
  
-nom -h                        Shows this wonderful help
-nom --help
+ -h                        Shows this wonderful help
+--help
  
-nom -i <UDF name>             Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/<udfname>.cfc with the same function name
-nom --install <UDF name>      Example: nom -i IsWeekend. It's then available as a cfc from CFML
+ -i <UDF name>             Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/<udfname>.cfc with the same function name
+--install <UDF name>      Example: nom -i IsWeekend. It's then available as a cfc from CFML
  
-nom -s                        Creates nomolicious.ini file for the current project
-nom --setup
+ -s                        Creates nomolicious.ini file for the current project
+--setup
  
-nom -p                        Show information about the current project
-nom --project
+ -p                        Show information about the current project
+--project
+
 </pre>
 
 ## General Information
