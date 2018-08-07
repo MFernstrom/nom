@@ -50,6 +50,11 @@ This will launch a local Jetty server with the port and maxmemory you set up dur
 ### Deploying to Heroku
 Heroku deployment is simple.
 
+Requirements
+* Herok CLI - https://devcenter.heroku.com/articles/heroku-cli
+* CLI deployment plugin - https://devcenter.heroku.com/articles/war-deployment
+
+Process
 * Create a new app in your Heroku account
 * Log into Heroku CLI on your computer (Otherwise Nom can't use Heroku)
 * Enter the name of your app when creating the local project with `Nom -c` or add a [Heroku] section to the nomolicious.ini file in the project directory: 
