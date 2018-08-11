@@ -36,11 +36,11 @@ In the future I'll make proper installers.
 This will create the MyNewProject folder, download the latest OpenBD version, and create a nomolicious.ini file.
 
 ### Adding CFLib UDFs
-CFLib has lots of useful UDFs, for ease-of-use Nom has the ability to install them for you.
+[CFLib](https://cflib.org/) has a lot of useful UDFs, for ease-of-use Nom has the ability to install them for you.
 
-Let's say you want to have the CFLib UDF "IsWeekDay", just run this command
+Let's say you want to have the CFLib UDF [IsWeekDay](https://cflib.org/udf/IsWeekday), just run this command
 <pre>$ nom -i IsWeekDay</pre>
-It'll download the UDF from CFLib.org, wrap it as a cfcomponent, and save it to the WEB-INF/customtags/cflib/IsWeekDay.cfc directory with the same name as the UDF.
+It will download the UDF from CFLib.org, wrap it as a cfcomponent, and save it to the WEB-INF/customtags/cflib/IsWeekDay.cfc directory with the same name as the UDF.
 
 ### Running the project
 To run the project just CD to the project root and run
