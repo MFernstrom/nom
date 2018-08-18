@@ -11,14 +11,15 @@ uses
   {$ENDIF}
   Classes, SysUtils, CustApp, UpdateNightly, HTMLTools, Udf, RunProject,
   NewProject, AddNomProject, ShowProject, MxUnit, fphttpclient, DeployHeroku,
-  FileUtil, zipper, GetOpenSSL, CheckIfNewOpenBD, AskHeroku, LCLIntf;
+  FileUtil, zipper, GetOpenSSL, CheckIfNewOpenBD, AskHeroku, LCLIntf, AskAddToPath;
 
 CONST
-  CurrentVersion = '0.2.0';
-  CurrentVersionInt = 20;
+  CurrentVersion = '0.2.2';
+  CurrentVersionInt = 22;
 
 var
   RunLocation : String;
+  EnvVars : TStringList;
 
 type
 
@@ -39,6 +40,7 @@ var
   LatestVersion, ErrorMsg, nomUserPath: String;
   FoundOpenSSL: Boolean;
 begin
+
   // Random ad, should only show 10% of the time
   Randomize;
   if Random > 0.9 then
@@ -75,15 +77,15 @@ begin
     WriteLn('No OpenSSL, can''t download UDFs');
 
   // quick check parameters
-  ErrorMsg := CheckOptions('huxi:arspcvx', 'nom run version deploy heroku open website');
+  ErrorMsg := CheckOptions('huxi:arspc:vx', 'run version deploy: open website addtopath');
   if ErrorMsg <> '' then begin
     WriteLn(ErrorMsg);
     Terminate;
     Exit;
-  end ;
+  end;
 
   if HasOption('deploy') then begin
-    if HasOption('heroku') then
+    if GetOptionValue(' ', 'deploy') = 'heroku' then
       DeployOnHeroku();
     Halt;
   end;
@@ -98,8 +100,24 @@ begin
     Halt;
   end;
 
+  if HasOption('addtopath') then begin
+    AskIfAddToPath( RunLocation );
+    Halt;
+  end;
+
   if HasOption('v', 'version') then begin
-    WriteLn('Nom version ' + CurrentVersion);
+    WriteLn('');
+	  WriteLn(' <-. (`-'')_            <-. (`-'')  ');
+    WriteLn('    \( OO) )     .->      \(OO )_ ');
+    WriteLn(' ,--./ ,--/ (`-'')----. ,--./  ,-.)');
+    WriteLn(' |   \ |  | ( OO).-.  ''|   `.''   |');
+    WriteLn(' |  . ''|  |)( _) | |  ||  |''.''|  |');
+    WriteLn(' |  |\    |  \|  |)|  ||  |   |  |');
+    WriteLn(' |  | \   |   ''  ''-''  ''|  |   |  |  Version ' + CurrentVersion);
+    WriteLn(' `--''  `--''    `-----'' `--''   `--''');
+    WriteLn(' ');
+    WriteLn('Thank you for using Nom, please report bugs and make feature requests at https://github.com/MFernstrom/nom');
+    WriteLn(' ');
     Halt;
   end;
 
@@ -191,22 +209,21 @@ begin
   writeln(' -r                        Runs the project');
   writeln('--run');
   writeln('');
-  writeln('--open                    Used with -r/--run to open the browser when the server is ready');
+  writeln('--open                     Used with -r/--run to open the browser when the server is ready');
   writeln(' ');
-  writeln('--website                 Opens the projects Git repo');
-  //writeln(' ');
-  //writeln('nom -u                        Update the projects version of OpenBD to the current Nightly');
-  //writeln('nom --update');
+  writeln('--addtopath                Adds Nom to ~/.bash_profile for Linux and OSX (Windows coming soon)');
   writeln(' ');
-  writeln('--deploy                  Deploys application with target, only Heroku implemented at the moment');
-  writeln('--heroku                  Deployment target - Requires you to be logged into Heroku CLI tools');
-  writeln('                              and have a [Heroku] section with a ProjectName=appname in the Nomolicious file');
+  writeln('--website                  Opens the projects Git repo');
+  writeln(' ');
+  writeln('--deploy <target>          Deploys application with target, only "heroku" is implemented at the moment');
+  writeln('                           Requires Heroku CLI tools and Heroku CLI Deployment addon (Details on Nom GitHub)');
+  writeln('                           and have a [Heroku] section with a ProjectName=appname in the Nomolicious file');
   writeln(' ');
   writeln(' -h                        Shows this wonderful help');
   writeln('--help');
   writeln(' ');
-  writeln(' -i <UDF name>             Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/<udfname>.cfc with the same function name');
-  writeln('--install <UDF name>      Example: nom -i IsWeekend. It''s then available as a cfc from CFML');
+  writeln(' -i <udf name>             Downloads and installs a CFLib UDF to WEB-INF/customtags/cflib/<udfname>.cfc with the same function name');
+  writeln('                           Example: nom -i IsWeekend. It''s then available as a cfc from CFML');
   writeln(' ');
   writeln(' -s                        Creates nomolicious.ini file for the current project');
   writeln('--setup');
@@ -229,6 +246,8 @@ var
 
 begin
   Application:=TMyApplication.Create(nil);
+  EnvVars := TStringList.Create;
+  Application.GetEnvironmentList(EnvVars);
   RunLocation := Application.Location;
   Application.Title:='nom';
   Application.Run;

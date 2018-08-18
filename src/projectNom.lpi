@@ -38,6 +38,7 @@
           </SearchPaths>
           <CodeGeneration>
             <SmartLinkUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
             <TargetOS Value="win64"/>
             <Optimizations>
               <OptimizationLevel Value="3"/>
@@ -138,7 +139,7 @@
         <PackageName Value="MultiThreadProcsLaz"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="14">
+    <Units Count="15">
       <Unit0>
         <Filename Value="projectNom.pas"/>
         <IsPartOfProject Value="True"/>
@@ -208,6 +209,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="AskHeroku"/>
       </Unit13>
+      <Unit14>
+        <Filename Value="askaddtopath.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="AskAddToPath"/>
+      </Unit14>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

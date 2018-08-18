@@ -82,11 +82,7 @@ begin
       write(' ');
       writeln(' ');
       if DeploySuccess = true then
-        WriteLn('App has been deployed to https://' + HerokuProjectName + '.herokuapp.com')
-      else begin
-        WriteLn('Failed to deploy. Data below');
-        WriteLn(d);
-      end;
+        WriteLn('App has been deployed to https://' + HerokuProjectName + '.herokuapp.com');
     end
     else
       WriteLn('This is not a Heroku project')
@@ -106,19 +102,16 @@ begin
   RunCommandIndir(GetCurrentDir, '/bin/bash',['-c','jar -cvf Heroku.war *'], s);
   RunCommandIndir(GetCurrentDir, '/bin/bash',['-c','heroku war:deploy Heroku.war --app ' + HerokuProjectName], s);
 
-  d := s;
-
   IsBusy := false;
 
   WriteLn(' ');
 
-  if pos('ERROR', s) > 0 then begin
+  if pos('https://' + HerokuProjectName + '.herokuapp.com', s) > 0 then
+    DeploySuccess := true
+  else begin
     WriteLn('App could not deploy');
-    WriteLn( s );
-  end
-  else
-    if pos('https://' + HerokuProjectName + '.herokuapp.com', s) > 0 then
-      DeploySuccess := true;
+    WriteLn( ReplaceRegExpr('\s+', s, ' ', true) );
+  end;
 end;
 
 constructor TMyThread.Create(CreateSuspended : boolean);

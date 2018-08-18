@@ -105,14 +105,13 @@ begin
                 begin
                   HasNotifiedStarted := true;
                   WriteLn(' ');
-                  WriteLn('Server is ready on port ' + RunPort);
+                  WriteLn('Server is ready at http://localhost:' + RunPort);
                   WriteLn(' ');
 
                   if OpenOnReady then
-                    OpenURL('http://localhost:' + RunPort)
-                  else
-                    WriteLn('Open browser by pressing ''o'' (as in open)');
+                    OpenURL('http://localhost:' + RunPort);
 
+                  WriteLn('Open browser by pressing ''o'' (as in open)');
                   WriteLn('Stop by pressing CTRL + C');
                 end;
           end;
