@@ -5,10 +5,9 @@ Nom is a commandline tool for OpenBD CFML projects.
 
 ![OpenBD Banner](https://github.com/OpenBD/openbd-core/blob/master/openBD_logo_788x150px.png?raw=true "OpenBD banner")
 
-Nom is built in FreePascal (Object Pascal) and Lazarus (IDE & GUI designer)
+Nom is built in FreePascal (Object Pascal)
 
 [![Built with Freepascal logo](built_with_fpc_logo.png?raw=true "Built with Freepascal logo")](https://www.freepascal.org/)
-[![Built with Lazarus logo](built_with_lazarus_logo.png?raw=true "Built with Lazarus logo")](http://lazarus.freepascal.org/)
 
 ## Current Functionality
 As of right now, Nom can:
