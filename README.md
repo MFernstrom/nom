@@ -46,6 +46,9 @@ To run the project just CD to the project root and run
 <pre>$ nom -r</pre>
 This will launch a local Jetty server with the port and maxmemory you set up during the project creation, just hit CTRL-C to shut it down.
 
+You can also tell Nom to open your browser once it's ready by adding the `--open` option
+<pre>$ nom -r --open</pre>
+
 ### Deploying to Heroku
 Heroku deployment is simple.
 
