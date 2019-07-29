@@ -9,19 +9,18 @@ Nom is built in FreePascal (Object Pascal)
 
 [![Built with Freepascal logo](built_with_fpc_logo.png?raw=true "Built with Freepascal logo")](https://www.freepascal.org/)
 
-## Current Functionality
-As of right now, Nom can:
+## What can it do?
 * Install CFLib UDFs
-* Run server
+* Run up the server
 * Create project
 * Show info about the current project (Only Nom info at the moment)
 * Download and install MXUnit
-* Deploy to Heroku (See details below)
+* Deploy to Heroku
 
-## Planned Functionality
+## What's it going to be able to do?
 * See the [Projects](https://github.com/MFernstrom/nom/projects) page
 
-## Installing Nom
+## Installing
 Nom is a CLI program and needs to be added to your Path.
 
 Mac: http://osxdaily.com/2014/08/14/add-new-path-to-path-command-line/
@@ -121,6 +120,6 @@ Nom is written in Object Pascal using Freepascal and Lazarus
 GPL3
 
 ### Roadmap/Plan
-There's no specific roadmap for this project, it's mostly on an 'I want this functionality so I'm adding it'-type of schedule.
+There's no specific roadmap for this project, it's mostly on an 'I want this functionality so I'm adding it' type of schedule.
 
 I'm happy to listen to ideas though, please feel free to get in touch if there are things you'd like to see in Nom.
